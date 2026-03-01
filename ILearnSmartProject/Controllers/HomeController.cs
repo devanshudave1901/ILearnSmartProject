@@ -1,14 +1,25 @@
 using ILearnSmartProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using ILearnSmartProject.Services;
 
 namespace ILearnSmartProject.Controllers
 {
     public class HomeController : Controller
     {
+        private UserAppService _userAppService;
+        public HomeController(UserAppService userAppService)
+        {
+            _userAppService = userAppService;
+        }
+
         public IActionResult Index()
         {
-            return View();
+           var users = _userAppService.GetAllUsers();
+
+            List<Users> data = users.Result;
+         
+            return View(data);
         }
 
         public IActionResult Privacy()
