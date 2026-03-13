@@ -1,4 +1,5 @@
 using ILearnSmartProject.Models;
+using ILearnSmartProject.Repositories;
 using ILearnSmartProject.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<UserAppService>();
+builder.Services.AddScoped<UserRepository>();
 builder.Services.AddDbContext<LearnSmartContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
