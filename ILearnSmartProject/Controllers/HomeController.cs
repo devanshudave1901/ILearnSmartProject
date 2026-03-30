@@ -2,6 +2,10 @@ using ILearnSmartProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using ILearnSmartProject.Services;
+using Stripe;
+using System.IO;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ILearnSmartProject.Controllers
 {
@@ -19,7 +23,9 @@ namespace ILearnSmartProject.Controllers
 
         public IActionResult Index()
         {
-           var users = _userAppService.GetAllUsers();
+
+            var users = _userAppService.GetAllUsers();
+
 
             List<Users> data = users.Result;
          
@@ -31,14 +37,27 @@ namespace ILearnSmartProject.Controllers
             return View();
         }
 
+
+    
+        public async Task<IActionResult> StripeWebHook()
+        {
+            return Ok();
+        }
+
+
+
+
         public IActionResult StripeCheckOut()
         {
            
 
             var webURLink = $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
-            var sessionUrl = _checkOutAppService.CreateCheckOutSession("price_1MotwRLkdIwHu7ixYcPLm5uZ", webURLink, webURLink);
+            var sessionDetails = _checkOutAppService.CreateCheckOutSession("price_1MotwRLkdIwHu7ixYcPLm5uZ", webURLink, webURLink);
 
-            return Redirect(sessionUrl.Result);
+            sessionDetails.Wait();
+            var sessionId = sessionDetails.Result[0];
+            var url = sessionDetails.Result[1];
+            return Redirect(url);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

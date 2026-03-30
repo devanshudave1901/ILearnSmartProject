@@ -6,6 +6,7 @@ using ILearnSmartProject.Models;
 using ILearnSmartProject.Payment.StripeManager;
 using ILearnSmartProject.Repositories;
 using Microsoft.EntityFrameworkCore;
+using MailKit;
 
 namespace ILearnSmartProject.Services
 {
@@ -15,7 +16,7 @@ namespace ILearnSmartProject.Services
         // get the checkout session url from the payment manager and return it to the client
         private readonly ICheckOutSession _checkOutSession;
 
-
+        
         public CheckOutAppService(ICheckOutSession checkOutSession)
         {
             _checkOutSession = checkOutSession;
@@ -23,10 +24,11 @@ namespace ILearnSmartProject.Services
 
 
 
-        public async Task<string> CreateCheckOutSession(string priceId, string successUrl, string cancelUrl)
+        public async Task<List<string>> CreateCheckOutSession(string priceId, string successUrl, string cancelUrl)
         {
-            var sessionUrl = await _checkOutSession.CreateCheckOutSession(priceId, successUrl, cancelUrl);
-            return sessionUrl;
+            var sessionDetails = await _checkOutSession.CreateCheckOutSession(priceId, successUrl, cancelUrl);
+            return sessionDetails;
+
         }
 
 
