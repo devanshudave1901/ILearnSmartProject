@@ -4,6 +4,7 @@ using ILearnSmartProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ILearnSmartProject.Migrations
 {
     [DbContext(typeof(LearnSmartContext))]
-    partial class LearnSmartContextModelSnapshot : ModelSnapshot
+    [Migration("20260331161436_UsersTypeMigration")]
+    partial class UsersTypeMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,51 +61,9 @@ namespace ILearnSmartProject.Migrations
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UsersTypeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsersTypeId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("ILearnSmartProject.Models.UsersType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserTypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UsersTypes");
-                });
-
-            modelBuilder.Entity("ILearnSmartProject.Models.Users", b =>
-                {
-                    b.HasOne("ILearnSmartProject.Models.UsersType", "UsersType")
-                        .WithMany()
-                        .HasForeignKey("UsersTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UsersType");
                 });
 #pragma warning restore 612, 618
         }

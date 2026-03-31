@@ -16,9 +16,25 @@
 
         public  DateTime UpdateDate { get; set; }
 
+        public int UsersTypeId { get; set; }
+        public UsersType UsersType { get; set; }
         public  bool IsActive { get; set; }
 
         public  bool IsDeleted { get; set; }
+        public Users(string firstName, string lastName, string emailAddress, string password, DateTime creationDate, DateTime updateDate, bool isActive, bool isDeleted, UsersType usersType)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            EmailAddress = emailAddress;
+            Password = password;
+            CreationDate = creationDate;
+            UpdateDate = updateDate;
+            IsActive = isActive;
+            IsDeleted = isDeleted;
+            UsersType = usersType;
+        }
+
+
         public Users(string firstName, string lastName, string emailAddress, string password, DateTime creationDate, DateTime updateDate, bool isActive, bool isDeleted)
         {
             FirstName = firstName;
@@ -30,8 +46,5 @@
             IsActive = isActive;
             IsDeleted = isDeleted;
         }
-
-
-
     }
 }
