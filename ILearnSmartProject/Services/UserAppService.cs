@@ -28,6 +28,12 @@ namespace ILearnSmartProject.Services
             return userData;
         }
 
+        public async Task<int> CheckLogin(string email, string password)
+        {
+            var userData = await _userRepository.CheckLogin(email, password);
+            return userData;
+        }
+
 
     }
 }

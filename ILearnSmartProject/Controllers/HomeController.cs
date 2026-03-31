@@ -13,12 +13,23 @@ namespace ILearnSmartProject.Controllers
     {
         private UserAppService _userAppService;
 
-       private CheckOutAppService _checkOutAppService; 
-
+       private CheckOutAppService _checkOutAppService;
         public HomeController(UserAppService userAppService, CheckOutAppService checkOutAppService)
         {
             _userAppService = userAppService;
-           _checkOutAppService = checkOutAppService;
+            _checkOutAppService = checkOutAppService;
+        }
+
+        public IActionResult GetSession(string sessionID)
+        {
+            var data = HttpContext.Session.GetString("id");
+
+            // fetch session id if any
+
+            var id = HttpContext.Session.Id;
+
+            return Content(data);
+
         }
 
         public IActionResult Index()
@@ -28,7 +39,9 @@ namespace ILearnSmartProject.Controllers
 
 
             List<Users> data = users.Result;
-         
+
+            var sessionID = ViewBag.SessionID;
+            var sessionUser = GetSession(sessionID);
             return View(data);
         }
 

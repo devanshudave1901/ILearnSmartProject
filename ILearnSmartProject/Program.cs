@@ -15,11 +15,22 @@ builder.Services.AddScoped<ICheckOutSession,StripeAdaptorManager>();
 // ADDING CheckoutAppSercice to buildier class for me to usse it in thehome controller
 builder.Services.AddScoped<CheckOutAppService>();
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddDistributedMemoryCache();
+// setting up the session usage for this application
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+
 builder.Services.AddDbContext<LearnSmartContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.Configure<StripeModel>(builder.Configuration.GetSection("Stripe"));
+
 
 var app = builder.Build();
 
@@ -33,14 +44,14 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Users}/{action=Login}/{id?}")
     .WithStaticAssets();
 
 

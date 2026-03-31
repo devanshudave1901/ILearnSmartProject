@@ -21,5 +21,12 @@ namespace ILearnSmartProject.Repositories
 
             return userData;
         }
+
+        public async Task<int> CheckLogin(string email, string password)
+        {
+            var userCount = await _learnSmartContext.Users.Where(u => u.EmailAddress == email && u.Password == password).CountAsync();
+            return userCount;
+        }
+
     }
 }
