@@ -79,12 +79,31 @@ namespace ILearnSmartProject.Controllers
             }
             else
             {
-                // establish the session
 
                 var sessionID = SetSession("1");
       
                 ViewBag.SessionID = sessionID;
                 return RedirectToAction("Index", "Home");
+            }
+
+            
+        }
+
+        public async Task<IActionResult> RegisterUser(string FirstName, string LastName, string EmailAddress, string Password)
+        {
+
+            var userRegister = await _userAppService.RegisterUser(FirstName, LastName, EmailAddress, Password);
+
+            if (userRegister == 0)
+            {
+                ViewBag.ErrorMessage = "Something Went Wrong. Please Try again! If problem presists, Please contact admin (admin@learnsmart.ca)";
+                TempData["Message"] = "Something Went Wrong. Please Try again! If problem presists, Please contact admin (admin@learnsmart.ca)";
+                //return View("Login");
+                return RedirectToAction("UserRegisteration");
+            }
+            else
+            {
+                return RedirectToAction("Login");
             }
 
             

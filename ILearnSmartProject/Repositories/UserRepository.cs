@@ -27,6 +27,24 @@ namespace ILearnSmartProject.Repositories
             var userCount = await _learnSmartContext.Users.Where(u => u.EmailAddress == email && u.Password == password).CountAsync();
             return userCount;
         }
+        public async Task<int> RegisterUser(string FirstName, string LastName, string EmailAddress, string Password)
+        {
+            DateTime CreationDate = DateTime.Now;
 
-    }
+            DateTime UpdateDate = DateTime.Now;
+
+            bool IsActive = true;
+
+            bool IsDeleted = true;
+
+             Users newUser = new Users(FirstName, LastName, EmailAddress,Password, CreationDate, UpdateDate, IsActive, IsDeleted);
+            //Users users = new Users();
+
+            var dbEntry = await _learnSmartContext.Users.AddAsync(newUser);
+
+           var result = _learnSmartContext.SaveChangesAsync().Result;
+
+            return Convert.ToInt32(result);
+        }
+     }
 }

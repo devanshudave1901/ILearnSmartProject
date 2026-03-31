@@ -5,60 +5,46 @@
 
 @model ILearnSmartProject.Models.Users
 
-<h4>Users</h4>
+<h4 class="d-flex align-items-center justify-content-center">Register Yourself Here!</h4>
 <hr />
-<div class="row">
+<div class="row d-flex align-items-center justify-content-center">
     <div class="col-md-4">
-        <form asp-action="UserRegisterationPage">
+        <form asp-action="RegisterUser">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group mt-4">
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+                <input asp-for="FirstName" class="form-control" required/>
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-4">
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+                <input asp-for="LastName" class="form-control" required />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-4">
                 <label asp-for="EmailAddress" class="control-label"></label>
-                <input asp-for="EmailAddress" class="form-control" />
+                <input asp-for="EmailAddress" class="form-control" type="email" required />
                 <span asp-validation-for="EmailAddress" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-4">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" class="form-control" type="password" required />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CreationDate" class="control-label"></label>
-                <input asp-for="CreationDate" class="form-control" />
-                <span asp-validation-for="CreationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdateDate" class="control-label"></label>
-                <input asp-for="UpdateDate" class="form-control" />
-                <span asp-validation-for="UpdateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
+          
+            <div class="form-group mt-4">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            @{
+                if (errorMessage != null)
+                {
+                    <div class="alert alert-danger mt-5" role="alert">
+                        @errorMessage
+                    </div>
+                }
+            }
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
