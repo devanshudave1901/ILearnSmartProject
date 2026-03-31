@@ -36,13 +36,9 @@ namespace ILearnSmartProject.Controllers
         public async Task<IActionResult> LogOut()
         {
             // get the session key
-            var sessionKey = HttpContext.Session.Keys.FirstOrDefault();
             HttpContext.Session.Clear();
-            // make sessionid null
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            //HttpContext.Response.Cookies.Delete(HttpContext.Session.Id);
-            // making session.id null so that in next login its fresh sessionid
-            var id = HttpContext.Session.Id;
+            Response.Cookies.Delete(".AspNetCore.Session");
+
             return RedirectToAction("Login");
         }
 
