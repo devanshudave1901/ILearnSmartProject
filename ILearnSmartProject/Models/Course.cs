@@ -24,7 +24,7 @@ namespace ILearnSmartProject.Models
 
         // handling the video uploaded by the user
         [NotMapped]
-        public required IFormFile CourseVideoFile { get; set; }
+        public IFormFile? CourseVideoFile { get; set; }
              
 
     }

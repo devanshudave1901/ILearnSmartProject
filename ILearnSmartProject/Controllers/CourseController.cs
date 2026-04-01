@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ILearnSmartProject.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ILearnSmartProject.Controllers
@@ -13,7 +14,10 @@ namespace ILearnSmartProject.Controllers
 
 
         // GET: CourseController/Details/5
-        public ActionResult SubmitCourse(string CourseTitle, string CourseDescription, decimal CoursePrice, bool CourseEnabled, IFormFile CourseVideoFile)
+        [HttpPost]
+        [RequestSizeLimit(200_000_000)]
+        [RequestFormLimits(MultipartBodyLengthLimit = 200_000_000)]
+        public ActionResult SubmitCourse([FromForm] Course course)
         {
             return View();
         }

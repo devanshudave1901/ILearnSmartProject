@@ -4,7 +4,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="SubmitCourse">
+        <form asp-controller="Course" class="Course" asp-action="SubmitCourse" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CourseTitle" class="control-label"></label>
@@ -26,20 +26,14 @@
                     <input class="form-check-input" asp-for="CourseEnabled" /> @Html.DisplayNameFor(model => model.CourseEnabled)
                 </label>
             </div>
-            <div class="form-group">
-                
-                 @*adding video upload razor*@  
+            <div class="form-group">                
                 <label asp-for="CourseVideoFile" class="control-label"></label>
-                <input asp-for="CourseVideoFile" class="form-control" type="file" accept="video/*" />
+                <input asp-for="CourseVideoFile" class="form-control" type="file" name="CourseVideoFile" id="CourseVideoFile" accept="video/*" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

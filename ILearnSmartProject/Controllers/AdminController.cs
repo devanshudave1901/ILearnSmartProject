@@ -10,9 +10,13 @@ namespace ILearnSmartProject.Controllers
         {
             return View();
         }
+        public ActionResult AdminCourseControl()
+        {
+            return View();
+        }
 
 
         // GET: CourseController/Details/5
-      
+
     }
 }
