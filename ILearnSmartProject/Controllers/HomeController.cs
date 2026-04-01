@@ -24,7 +24,6 @@ namespace ILearnSmartProject.Controllers
         {
             var data = HttpContext.Session.GetString("id");
 
-            // fetch session id if any
 
             var id = HttpContext.Session.Id;
 

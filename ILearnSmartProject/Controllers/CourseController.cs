@@ -1,11 +1,20 @@
 ﻿using ILearnSmartProject.Models;
+using ILearnSmartProject.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace ILearnSmartProject.Controllers
 {
     public class CourseController : Controller
     {
+        private CourseAppService _courseAppService;
+
+
+        public CourseController(CourseAppService courseAppService)
+        {
+            _courseAppService = courseAppService;
+        }
         // GET: CourseController
         public ActionResult Index()
         {
@@ -17,9 +26,10 @@ namespace ILearnSmartProject.Controllers
         [HttpPost]
         [RequestSizeLimit(200_000_000)]
         [RequestFormLimits(MultipartBodyLengthLimit = 200_000_000)]
-        public ActionResult SubmitCourse([FromForm] Course course)
+        public async Task<ActionResult> SubmitCourse([FromForm] Course course)
         {
-            return View();
+            var courseId = await _courseAppService.UploadFileToBlob(course.CourseVideoFile);
+            return RedirectToAction("Index", "Admin");
         }
 
         // GET: CourseController/Create

@@ -21,8 +21,6 @@ namespace ILearnSmartProject.Models
         {
             string value = null;
             
-                
-
             return value;
         }
         

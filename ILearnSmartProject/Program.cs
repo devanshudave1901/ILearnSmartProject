@@ -2,6 +2,7 @@ using ILearnSmartProject.Models;
 using ILearnSmartProject.Payment.StripeManager;
 using ILearnSmartProject.Repositories;
 using ILearnSmartProject.Services;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,11 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<UserAppService>();
-
+builder.Services.AddScoped<CourseAppService>();
 builder.Services.AddScoped<ICheckOutSession,StripeAdaptorManager>();
 // ADDING CheckoutAppSercice to buildier class for me to usse it in thehome controller
 builder.Services.AddScoped<CheckOutAppService>();
+
+
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<CourseRepository>();
+
 builder.Services.AddDistributedMemoryCache();
 // setting up the session usage for this application
 builder.Services.AddSession(options =>
@@ -30,8 +35,12 @@ builder.Services.AddDbContext<LearnSmartContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.Configure<StripeModel>(builder.Configuration.GetSection("Stripe"));
+builder.Services.Configure<Course>(builder.Configuration.GetSection("AzureBlobStorage"));
+builder.Services.Configure<AzureBlobModel>(builder.Configuration.GetSection("AzureBlobStorage"));
 
-
+builder.Services.Configure<KestrelServerOptions>(options => {
+    options.Limits.MaxRequestBodySize = null; // Unlimited
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
