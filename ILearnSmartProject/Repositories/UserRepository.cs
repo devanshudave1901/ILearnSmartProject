@@ -27,6 +27,19 @@ namespace ILearnSmartProject.Repositories
             var userCount = await _learnSmartContext.Users.Where(u => u.EmailAddress == email && u.Password == password).CountAsync();
             return userCount;
         }
+
+        public async Task<string> LoginUserType(string email)
+        {
+            var userType = await (from user in _learnSmartContext.Users
+                                  where user.EmailAddress == email
+                           join usersType in _learnSmartContext.UsersTypes on user.UsersTypeId equals usersType.Id
+                           select new
+                           {
+                               Id = usersType.Id,
+                               Name = usersType.UserTypeName,
+                           }).ToListAsync();
+            return userType[0].Name;
+        }
         public async Task<int> RegisterUser(string FirstName, string LastName, string EmailAddress, string Password)
         {
             DateTime CreationDate = DateTime.Now;

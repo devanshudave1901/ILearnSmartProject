@@ -34,6 +34,12 @@ namespace ILearnSmartProject.Services
             return userData;
         }
 
+        public async Task<string> LoginUserType(string email)
+        {
+            var userType = await _userRepository.LoginUserType(email);
+            return userType;
+
+        }
         public async Task<int> RegisterUser(string FirstName, string LastName, string EmailAddress, string Password)
         {
             var userRegister = await _userRepository.RegisterUser(FirstName, LastName, EmailAddress, Password);

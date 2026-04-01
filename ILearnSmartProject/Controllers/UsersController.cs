@@ -79,11 +79,21 @@ namespace ILearnSmartProject.Controllers
             }
             else
             {
-
+                var type = await _userAppService.LoginUserType(email);
                 var sessionID = SetSession("1");
       
                 ViewBag.SessionID = sessionID;
-                return RedirectToAction("Index", "Home");
+                if(type == "Admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Student");
+
+                }
+
             }
 
             
