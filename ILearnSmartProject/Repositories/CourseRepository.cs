@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure;
+using Azure.Storage.Blobs;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -32,29 +33,42 @@ namespace ILearnSmartProject.Repositories
             {
                 Console.WriteLine($"Error uploading file to Azure Blob Storage: {ex.Message}");
             }
-           
-
-            // this method will upload the file to azure blob storage and return the url of the uploaded file
-            // from this method not repository.
-
-            //var blobServiceClient = new Azure.Storage.Blobs.BlobServiceClient(connectionString);
-
-            //var containerName = azureContainerName;
-
-            //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-
-            //var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
-            //var blobClient = containerClient.GetBlobClient(fileName);
-            //// uploading the video file to azure blob storage
-
-            //using var uploadFileStream = file.OpenReadStream();
-            //var res = await blobClient.UploadAsync(uploadFileStream, overwrite: true);
-            //uploadFileStream.Close(); // Ensure the stream is closed after upload
-
-
+      
 
             return "good";
 
         }
+
+        //public async Task<File> FetchBlobFileFromAzure(string blobUrl, string azureContainerName,string connectionString)
+        //{
+        //    try
+        //    {
+        //        // fetching the file from blob storage using the url and return it as a file
+        //        BlobContainerClient blobContainerClient = new BlobContainerClient(connectionString, azureContainerName);
+
+        //        BlobClient blobClient = new BlobClient(new Uri(blobUrl), new AzureSasCredential(connectionString));
+
+        //        var file = await blobClient.DownloadContentAsync();
+
+        //        using (var stream = file.Value.Content.ToStream())
+        //        {
+        //            using (var memoryStream = new MemoryStream())
+        //            {
+        //                await stream.CopyToAsync(memoryStream);
+        //                var fileBytes = memoryStream.ToArray();
+        //                var fileName = Path.GetFileName(blobUrl);
+        //                return File(fileBytes, "application/octet-stream", fileName);
+        //            }
+        //        }
+
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error fetching file from Azure Blob Storage: {ex.Message}");
+        //        return null;
+        //    }
+        //}
     }
 }

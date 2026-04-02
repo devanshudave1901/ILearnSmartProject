@@ -1,4 +1,5 @@
-﻿using ILearnSmartProject.Interfaces;
+﻿using Azure.Storage.Blobs;
+using ILearnSmartProject.Interfaces;
 using ILearnSmartProject.Models;
 using ILearnSmartProject.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ namespace ILearnSmartProject.Services
 
             _courseRepository = courseRepository;
             _appSettings = appSettings.Value;
-            
+
         }
 
         public async Task<int> UploadFileToBlob(IFormFile file)
@@ -31,6 +32,30 @@ namespace ILearnSmartProject.Services
             var sucess = await _courseRepository.UploadFileToBlob(file, azureContainerName, connectionString);
 
             return 0;
+        }
+
+        public async Task<IFormFile> FetchBlobFileFromAzure(string blobUrl)
+        {
+            var azureContainerName = _appSettings.ContainerName;
+            var connectionString = _appSettings.ConnectionString;
+
+            BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+            BlobContainerClient blobContainerClient = new BlobContainerClient(connectionString, azureContainerName);
+
+
+            BlobClient blobClient = blobContainerClient.GetBlobClient("DevanshuDave_A1_Recording.mp4");
+
+            Stream stream = await blobClient.OpenReadAsync();
+
+            var properties = await blobClient.GetPropertiesAsync();
+            IFormFile file = new FormFile(stream, 0, stream.Length, null, blobClient.Name)
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = properties.Value.ContentType,
+                ContentDisposition = $"attachment; filename={blobClient.Name}",
+                
+            };
+            return file;
         }
     }
 }
