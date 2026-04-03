@@ -1,7 +1,14 @@
 ﻿@{
     Layout = "~/Views/Shared/_AdminPagesLayout.cshtml";
     var errorMessage = ViewBag.ErrorMessage;
+
+    //var course = ViewBag.courses.ToList();
+    var course1 = ViewBag.courses;
+
+
 }
+
+@model ILearnSmartProject.Models.Course
 <style>
     /* From Uiverse.io by PriyanshuGupta28 */
     .pushable {
@@ -99,63 +106,18 @@
     
 </div>
     <div class="row mt-5">
-        <div class="col-sm-3">
-            <div class="card" style="width: 18rem;">
-            <img src="../images/course1.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="card" style="width: 18rem;">
-            <img src="../images/course1.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-    </div>
-@* @model ILearnSmartProject.Models.Course
 
-<h4>Course</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-controller="Course" class="Course" asp-action="SubmitCourse" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CourseTitle" class="control-label"></label>
-                <input asp-for="CourseTitle" class="form-control" />
-                <span asp-validation-for="CourseTitle" class="text-danger"></span>
+    @for (int i = 0; i < course1.Count; i++)
+        {
+            <div class="col-sm-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="../images/course1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                    <h5 class="card-title">@course1[i].CourseTitle</h5>
+                    <p class="card-text">@course1[i].CourseDescription</p>
+                        <a href="#" class="btn btn-primary">View</a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CourseDescription" class="control-label"></label>
-                <input asp-for="CourseDescription" class="form-control" />
-                <span asp-validation-for="CourseDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CoursePrice" class="control-label"></label>
-                <input asp-for="CoursePrice" class="form-control" />
-                <span asp-validation-for="CoursePrice" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="CourseEnabled" /> @Html.DisplayNameFor(model => model.CourseEnabled)
-                </label>
-            </div>
-            <div class="form-group">                
-                <label asp-for="CourseVideoFile" class="control-label"></label>
-                <input asp-for="CourseVideoFile" class="form-control" type="file" name="CourseVideoFile" id="CourseVideoFile" accept="video/*" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        }
 </div>
- *@

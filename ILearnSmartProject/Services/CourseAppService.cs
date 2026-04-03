@@ -34,8 +34,8 @@ namespace ILearnSmartProject.Services
             var BlobName = url.Split('/').Last();
 
             course.BlobName = BlobName;
-       
-             await _courseRepository.CreateNewCourse(course);
+
+            await _courseRepository.CreateNewCourse(course);
 
             return 0;
         }
@@ -71,9 +71,14 @@ namespace ILearnSmartProject.Services
                 Headers = new HeaderDictionary(),
                 ContentType = properties.Value.ContentType,
                 ContentDisposition = $"attachment; filename={blobClient.Name}",
-                
+
             };
             return file;
+        }
+
+        public async Task<List<Course>> GetAllCourses()
+        {
+            return await _courseRepository.GetAllCourses();
         }
     }
 }

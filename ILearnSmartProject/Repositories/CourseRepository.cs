@@ -2,6 +2,7 @@
 using Azure.Storage.Blobs;
 using ILearnSmartProject.Interfaces;
 using ILearnSmartProject.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 using System.Reflection.Metadata.Ecma335;
@@ -25,7 +26,7 @@ namespace ILearnSmartProject.Repositories
 
                 BlobClient blobClient = blobContainerClient.GetBlobClient(file.FileName);
 
-                 using (Stream? data = file.OpenReadStream())
+                using (Stream? data = file.OpenReadStream())
 
                 {
                     await blobClient.UploadAsync(data, overwrite: true);
@@ -37,7 +38,7 @@ namespace ILearnSmartProject.Repositories
             {
                 Console.WriteLine($"Error uploading file to Azure Blob Storage: {ex.Message}");
             }
-      
+
 
             return "good";
 
@@ -51,6 +52,14 @@ namespace ILearnSmartProject.Repositories
 
             var result = _learnSmartContext.SaveChangesAsync().Result;
             return 0;
+        }
+
+
+        public async Task<List<Course>> GetAllCourses()
+        {
+            var courses = await _learnSmartContext.Courses.ToListAsync();
+            return courses;
+
         }
     }
 }

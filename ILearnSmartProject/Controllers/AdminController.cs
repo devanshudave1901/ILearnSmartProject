@@ -35,8 +35,11 @@ namespace ILearnSmartProject.Controllers
 
             return File(stream, file.ContentType);
         }
-        public ActionResult AdminCourseControl()
+        public async Task<ActionResult> AdminCourseControl()
         {
+
+            var courses = await _courseAppService.GetAllCourses();
+            ViewBag.courses = courses.ToList();
             return View();
         }
 
