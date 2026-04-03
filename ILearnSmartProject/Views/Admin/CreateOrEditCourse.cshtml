@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_AdminPagesLayout.cshtml";
     var errorMessage = ViewBag.ErrorMessage;
+    var course = ViewBag.courses;
 }
 
 @model ILearnSmartProject.Models.Course
@@ -14,17 +15,17 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group mt-3">
                     <label asp-for="CourseTitle" class="control-label"></label>
-                    <input asp-for="CourseTitle" class="form-control" />
+                    <input asp-for="CourseTitle" value="@course[0].CourseTitle" class="form-control" />
                     <span asp-validation-for="CourseTitle" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
                     <label asp-for="CourseDescription" class="control-label"></label>
-                    <input asp-for="CourseDescription" class="form-control" />
+                    <input asp-for="CourseDescription" value="@course[0].CourseDescription" class="form-control" />
                     <span asp-validation-for="CourseDescription" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
                     <label asp-for="CoursePrice" class="control-label"></label>
-                    <input asp-for="CoursePrice" class="form-control" />
+                    <input asp-for="CoursePrice" value="@course[0].CoursePrice" class="form-control" />
                     <span asp-validation-for="CoursePrice" class="text-danger"></span>
                 </div>
                 <div class="form-row mt-3">
@@ -34,14 +35,41 @@
                     </div>
                     <div class="form-group form-check mt-3 col">
                         <label class="form-check-label">
-                            <input class="form-check-input" asp-for="CourseEnabled" /> @Html.DisplayNameFor(model => model.CourseEnabled)
+                            <input class="form-check-input" value="@course[0].CourseEnabled" asp-for="CourseEnabled" /> @Html.DisplayNameFor(model => model.CourseEnabled)
                         </label>
                     </div>
                 </div>
-      
-                <div class="form-group mt-3 d-flex justify-content-center">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
+                @if(course.Count > 0 && course != null)
+                {
+                    <div class="form-group mt-3" >
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" value="@course[0].Id" class="form-control"  />
+                  
+                    </div> 
+                    <div class="form-group mt-3" hidden>
+                        <label asp-for="IsEdit" class="control-label"></label>
+                        <input asp-for="IsEdit" value="true" class="form-control" hidden />
+                  
+                    </div>
+
+                    <div class="form-group mt-3" hidden>
+                        <label asp-for="BlobName" class="control-label"></label>
+                        <input asp-for="BlobName" value="@course[0].BlobName" class="form-control" hidden />
+                  
+                    </div>
+
+                    <div class="form-group mt-3 d-flex justify-content-center">
+                        <input type="submit"  value="Edit" class="btn btn-primary" />
+                    </div>
+                }
+                 else
+                  {
+                    <div class="form-group mt-3 d-flex justify-content-center">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                  }
+                
+                
             </form>
         </div>
     </div>

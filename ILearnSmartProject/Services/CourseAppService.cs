@@ -40,6 +40,25 @@ namespace ILearnSmartProject.Services
             return 0;
         }
 
+        public async Task<int> UpdateCourse(Course course)
+        {
+            // add the file to blob
+            var file = course.CourseVideoFile;
+            var BlobName = course.BlobName;
+            if (course.CourseVideoFile != null)
+            {
+               var url = await UploadFileToBlob(file);
+                BlobName = url.Split('/').Last();
+                course.BlobName = BlobName;
+            }
+            // breaking the url.
+   
+            
+            await _courseRepository.UpdateCourse(course);
+            return 0;
+        }
+
+
         public async Task<string> UploadFileToBlob(IFormFile file)
         {
             var azureContainerName = _appSettings.ContainerName;
@@ -80,5 +99,16 @@ namespace ILearnSmartProject.Services
         {
             return await _courseRepository.GetAllCourses();
         }
+
+        public async Task<List<Course>> GetCourseById(int id)
+        {
+            return await _courseRepository.GetCourseById(id);
+        }
+        public async Task<int> DeleteCourse(int id)
+        {
+            return await _courseRepository.DeleteCourse(id);
+        }
+
+        
     }
 }

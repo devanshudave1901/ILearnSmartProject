@@ -8,6 +8,7 @@
 
 }
 
+
 @model ILearnSmartProject.Models.Course
 <style>
     /* From Uiverse.io by PriyanshuGupta28 */
@@ -115,7 +116,18 @@
                     <div class="card-body">
                     <h5 class="card-title">@course1[i].CourseTitle</h5>
                     <p class="card-text">@course1[i].CourseDescription</p>
-                        <a href="#" class="btn btn-primary">View</a>
+                    <p class="card-text">Price:- $@course1[i].CoursePrice</p>
+
+                       <div class="d-flex justify-content-between">
+                        <a asp-action="CreateOrEditCourse" asp-controller="Admin" asp-route-id="@course1[i].Id" class="btn btn-primary">
+                            
+                            Edit
+                        </a>
+                        
+
+                            <a href="#" class="btn btn-primary">View</a>
+                        <a asp-action="DeleteCourse" asp-controller="Admin" asp-route-id="@course1[i].Id" class="btn btn-primary">Delete</a>
+                        </div>
                     </div>
                 </div>
             </div>

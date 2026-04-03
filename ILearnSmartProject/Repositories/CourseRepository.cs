@@ -53,13 +53,45 @@ namespace ILearnSmartProject.Repositories
             var result = _learnSmartContext.SaveChangesAsync().Result;
             return 0;
         }
+        public async Task<int> UpdateCourse(Course course)
+        {
+            
 
 
+             //_learnSmartContext.Courses.Update(entityUpdate);   
+            // update the course with the given id with the new data
+            //var commandCourse = await _learnSmartContext.Courses.Where(u => u.Id == course.Id).FirstOrDefaultAsync();
+
+            //var newData = course;
+
+            //commandCourse= newData;
+            var update = _learnSmartContext.Courses.Update(course);
+
+            var result = await _learnSmartContext.SaveChangesAsync();
+            return 0;
+        }
+        
         public async Task<List<Course>> GetAllCourses()
         {
             var courses = await _learnSmartContext.Courses.ToListAsync();
             return courses;
 
         }
+        public async Task<List<Course>> GetCourseById(int id)
+        {
+            var courses = await _learnSmartContext.Courses.Where(u=>u.Id == id).ToListAsync();
+            return courses;
+
+        }
+        public async Task<int> DeleteCourse(int id)
+        {
+            var course = await _learnSmartContext.Courses.Where(u => u.Id == id).ExecuteDeleteAsync();
+
+            return 0;
+
+        }
+
+        
+
     }
 }

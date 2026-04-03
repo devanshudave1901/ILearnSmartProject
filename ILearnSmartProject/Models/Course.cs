@@ -20,7 +20,10 @@ namespace ILearnSmartProject.Models
         public required bool CourseEnabled { get; set; }
         
         public required string BlobName { get; set; }
+        [NotMapped]
+        public required string IsEdit { get; set; }
 
+        
 
         // handling the video uploaded by the user
         [NotMapped]
