@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "~/Views/Shared/_AdminPagesLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminHomeLayout.cshtml";
     var errorMessage = ViewBag.ErrorMessage;
 
     //var course = ViewBag.courses.ToList();
@@ -125,11 +125,35 @@
                         </a>
                         
 
-                            <a href="#" class="btn btn-primary">View</a>
-                        <a asp-action="DeleteCourse" asp-controller="Admin" asp-route-id="@course1[i].Id" class="btn btn-primary">Delete</a>
+                        <a asp-action="AdminViewPage" asp-controller="Admin" asp-route-id="@course1[i].Id" class="btn btn-primary">View</a>
+                      
+                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Delete
+                </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header d-flex justify-content-lg-between">
+                                <h5 class="modal-title" id="exampleModalLabel">Delete?</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure? You want to delete this course
+                            </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <a asp-action="DeleteCourse" asp-controller="Admin" asp-route-id="@course1[i].Id" class="btn btn-primary">Delete</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                </div>
+                    </div>
+                </div>
             </div>
+        
         }
+    
 </div>

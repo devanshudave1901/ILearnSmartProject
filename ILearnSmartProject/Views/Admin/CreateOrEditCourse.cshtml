@@ -9,39 +9,40 @@
 <h4>Add Course</h4>
 <hr />
 <div class="mt-5">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-4">
-            <form asp-controller="Course" class="Course" asp-action="SubmitCourse" method="post" enctype="multipart/form-data">
+    <div class="row d-flex justify-content-center align-content-center border-1 rounded">
+        <div class="col-md-4 d-flex justify-content-center">
+            <form asp-controller="Course" class="Course" id="formData" asp-action="SubmitCourse" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group mt-3">
-                    <label asp-for="CourseTitle" class="control-label"></label>
-                    <input asp-for="CourseTitle" value="@course[0].CourseTitle" class="form-control" />
-                    <span asp-validation-for="CourseTitle" class="text-danger"></span>
-                </div>
-                <div class="form-group mt-3">
-                    <label asp-for="CourseDescription" class="control-label"></label>
-                    <input asp-for="CourseDescription" value="@course[0].CourseDescription" class="form-control" />
-                    <span asp-validation-for="CourseDescription" class="text-danger"></span>
-                </div>
-                <div class="form-group mt-3">
-                    <label asp-for="CoursePrice" class="control-label"></label>
-                    <input asp-for="CoursePrice" value="@course[0].CoursePrice" class="form-control" />
-                    <span asp-validation-for="CoursePrice" class="text-danger"></span>
-                </div>
-                <div class="form-row mt-3">
-                    <div class="form-group col">
-                        <label asp-for="CourseVideoFile" class="control-label"></label>
-                        <input asp-for="CourseVideoFile" class="form-control" type="file" name="CourseVideoFile" id="CourseVideoFile" accept="video/*" />
-                    </div>
-                    <div class="form-group form-check mt-3 col">
-                        <label class="form-check-label">
-                            <input class="form-check-input" value="@course[0].CourseEnabled" asp-for="CourseEnabled" /> @Html.DisplayNameFor(model => model.CourseEnabled)
-                        </label>
-                    </div>
-                </div>
-                @if(course.Count > 0 && course != null)
+                
+                @if (course.Count > 0 && course.Count != 0)
                 {
-                    <div class="form-group mt-3" >
+                    <div class="form-group mt-3">
+                        <label asp-for="CourseTitle" class="control-label"></label>
+                        <input asp-for="CourseTitle" value="@course[0].CourseTitle" class="form-control border-dark border-1 rounded" />
+                        <span asp-validation-for="CourseTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label asp-for="CourseDescription" class="control-label"></label>
+                        <input asp-for="CourseDescription" value="@course[0].CourseDescription" class="form-control" />
+                        <span asp-validation-for="CourseDescription" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label asp-for="CoursePrice" class="control-label"></label>
+                        <input asp-for="CoursePrice" value="@course[0].CoursePrice" class="form-control" />
+                        <span asp-validation-for="CoursePrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-row mt-3">
+                        <div class="form-group col">
+                            <label asp-for="CourseVideoFile" class="control-label"></label>
+                            <input asp-for="CourseVideoFile" class="form-control" type="file" name="CourseVideoFile" id="CourseVideoFile" accept="video/*" />
+                        </div>
+                        <div class="form-group form-check mt-3 col">
+                            <label class="form-check-label">
+                                <input class="form-check-input" value="@course[0].CourseEnabled" asp-for="CourseEnabled" /> @Html.DisplayNameFor(model => model.CourseEnabled)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3" hidden>
                         <label asp-for="Id" class="control-label"></label>
                         <input asp-for="Id" value="@course[0].Id" class="form-control"  />
                   
@@ -59,19 +60,69 @@
                     </div>
 
                     <div class="form-group mt-3 d-flex justify-content-center">
-                        <input type="submit"  value="Edit" class="btn btn-primary" />
+                        <input type="submit" value="Edit The Data" class="btn btn-primary Course" />
                     </div>
                 }
                  else
                   {
+                    <div class="form-group mt-3">
+                        <label asp-for="CourseTitle" class="control-label"></label>
+                        <input asp-for="CourseTitle" class="form-control" />
+                        <span asp-validation-for="CourseTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label asp-for="CourseDescription" class="control-label"></label>
+                        <input asp-for="CourseDescription"  class="form-control" />
+                        <span asp-validation-for="CourseDescription" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label asp-for="CoursePrice" class="control-label"></label>
+                        <input asp-for="CoursePrice"  class="form-control" />
+                        <span asp-validation-for="CoursePrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-row mt-3">
+                        <div class="form-group col">
+                            <label asp-for="CourseVideoFile" class="control-label"></label>
+                            <input asp-for="CourseVideoFile" class="form-control" type="file" name="CourseVideoFile" id="CourseVideoFile" accept="video/*" />
+                        </div>
+                        <div class="form-group form-check mt-3 col">
+                            <label class="form-check-label">
+                                <input class="form-check-input"   asp-for="CourseEnabled" /> @Html.DisplayNameFor(model => model.CourseEnabled)
+                            </label>
+                        </div>
+                    </div>
                     <div class="form-group mt-3 d-flex justify-content-center">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" value="Create" class="btn btn-primary Course" />
                     </div>
                   }
-                
+           
                 
             </form>
+            
+            <div  class="spinner-border spinner" style="width: 3rem; height: 3rem;" role="status" hidden>
+                <span class="sr-only"></span>
+            </div>
+            <div class="spinner-grow spinner" style="width: 3rem; height: 3rem;" role="status" hidden>
+                <span class="sr-only"></span>
+            </div>
+
         </div>
     </div>
+    <script>
 
+        // WITHOUT jquery. normal js
+        var document = document;
+            document.addEventListener('DOMContentLoaded', function () {
+                var courseForm = document.querySelector('.Course');
+                
+                courseForm.addEventListener('submit', function () {
+                            var spinner =  document.querySelector('.spinner'); 
+                        var formData = document.getElementById('formData');
+                    spinner.removeAttribute('hidden');
+                        formData.style.display = 'none';
+                    });
+            });
+            
+    </script>
 </div>
+

@@ -25,14 +25,16 @@ namespace ILearnSmartProject.Controllers
         //{
         //    return View();
         //}
-        public IActionResult GetVideo()
+        public async Task<IActionResult> GetVideoAsync(string blobName)
         {
-            var file = _courseAppService.FetchBlobFileFromAzure("https://ilearnsmart.blob.core.windows.net/coursevideos/DevanshuDave_A1_Recording.mp4").Result;
+            //var file = _courseAppService.FetchBlobFileFromAzure("https://ilearnsmart.blob.core.windows.net/coursevideos/DevanshuDave_A1_Recording.mp4").Result;
+            var fetchVideo = await _courseAppService.FetchBlobFileFromAzure(blobName);
 
-            var stream = file.OpenReadStream();
+            // course[0].CourseVideoFile = fetchVideo;
+            var stream = fetchVideo.OpenReadStream();
 
 
-            return File(stream, file.ContentType);
+            return File(stream, fetchVideo.ContentType);
         }
         public async Task<ActionResult> AdminCourseControl()
         {
@@ -51,6 +53,20 @@ namespace ILearnSmartProject.Controllers
             return View();
         }
 
+        public async Task<IActionResult> AdminViewPage(int Id)
+        {
+
+            var course = _courseAppService.GetCourseById(Id).Result;
+
+            //var fetchVideo = await _courseAppService.FetchBlobFileFromAzure(course[0].BlobName);
+
+           // course[0].CourseVideoFile = fetchVideo;
+            ViewBag.courses = course.ToList();
+            return View();
+        }
+
+
+        
         public IActionResult DeleteCourse(int Id)
         {
             var deletedCourse = _courseAppService.DeleteCourse(Id).Result;
