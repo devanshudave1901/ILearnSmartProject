@@ -29,19 +29,24 @@ namespace ILearnSmartProject.Controllers
         [RequestFormLimits(MultipartBodyLengthLimit = 200_000_000)]
         public async Task<ActionResult> SubmitCourse([FromForm] Course course)
         {
+            SubjectClass subjectClass = new SubjectClass();
+            Email emailObserver = new Email();
+            subjectClass.Subscribe(emailObserver);
 
-            if(course.IsEdit == "true")
+            if (course.IsEdit == "true")
             {
                 await _courseAppService.UpdateCourse(course);
-               
+               subjectClass.NotifyObservers("Course with ID: " + course.Id + " has been updated.");
             }
             else
             {
                 var courseId = await _courseAppService.CreateCourse(course);
-
+                subjectClass.NotifyObservers("New course created with ID: " + courseId);
             }
 
             //var courseId = await _courseAppService.UploadFileToBlob(course.CourseVideoFile);
+            // implement email observer feature to notify
+            subjectClass.Unsubscribe(emailObserver);
 
 
             return RedirectToAction("AdminCourseControl", "Admin");
