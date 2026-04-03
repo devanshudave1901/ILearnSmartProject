@@ -1,6 +1,9 @@
-﻿namespace ILearnSmartProject.Interfaces
+﻿using ILearnSmartProject.Models;
+
+namespace ILearnSmartProject.Interfaces
 {
-    public class ICourseRepository
+    public interface ICourseRepository
     {
+        public Task<int> CreateNewCourse(Course course);
     }
 }

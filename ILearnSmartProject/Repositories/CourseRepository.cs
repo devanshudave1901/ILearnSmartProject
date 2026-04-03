@@ -1,16 +1,20 @@
 ﻿using Azure;
 using Azure.Storage.Blobs;
+using ILearnSmartProject.Interfaces;
+using ILearnSmartProject.Models;
 using System;
 using System.IO;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace ILearnSmartProject.Repositories
 {
-    public class CourseRepository
+    public class CourseRepository : ICourseRepository
     {
-
-        public CourseRepository()
+        private readonly LearnSmartContext _learnSmartContext;
+        public CourseRepository(LearnSmartContext learnSmartContext)
         {
+            _learnSmartContext = learnSmartContext;
         }
         // upload files to blob storage and return the url of the uploaded file
         public async Task<string> UploadFileToBlob(IFormFile file, string azureContainerName, string connectionString)
@@ -39,36 +43,14 @@ namespace ILearnSmartProject.Repositories
 
         }
 
-        //public async Task<File> FetchBlobFileFromAzure(string blobUrl, string azureContainerName,string connectionString)
-        //{
-        //    try
-        //    {
-        //        // fetching the file from blob storage using the url and return it as a file
-        //        BlobContainerClient blobContainerClient = new BlobContainerClient(connectionString, azureContainerName);
-
-        //        BlobClient blobClient = new BlobClient(new Uri(blobUrl), new AzureSasCredential(connectionString));
-
-        //        var file = await blobClient.DownloadContentAsync();
-
-        //        using (var stream = file.Value.Content.ToStream())
-        //        {
-        //            using (var memoryStream = new MemoryStream())
-        //            {
-        //                await stream.CopyToAsync(memoryStream);
-        //                var fileBytes = memoryStream.ToArray();
-        //                var fileName = Path.GetFileName(blobUrl);
-        //                return File(fileBytes, "application/octet-stream", fileName);
-        //            }
-        //        }
+        public async Task<int> CreateNewCourse(Course course)
+        {
 
 
+            var courseDataToEnter = await _learnSmartContext.Courses.AddAsync(course);
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Error fetching file from Azure Blob Storage: {ex.Message}");
-        //        return null;
-        //    }
-        //}
+            var result = _learnSmartContext.SaveChangesAsync().Result;
+            return 0;
+        }
     }
 }

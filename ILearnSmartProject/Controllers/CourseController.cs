@@ -29,15 +29,14 @@ namespace ILearnSmartProject.Controllers
         [RequestFormLimits(MultipartBodyLengthLimit = 200_000_000)]
         public async Task<ActionResult> SubmitCourse([FromForm] Course course)
         {
-            var courseId = await _courseAppService.UploadFileToBlob(course.CourseVideoFile);
+            //var courseId = await _courseAppService.UploadFileToBlob(course.CourseVideoFile);
+            var courseId = await _courseAppService.CreateCourse(course);
+
             return RedirectToAction("Index", "Admin");
         }
 
         // GET: CourseController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+     
 
         // POST: CourseController/Create
         [HttpPost]

@@ -22,7 +22,25 @@ namespace ILearnSmartProject.Services
 
         }
 
-        public async Task<int> UploadFileToBlob(IFormFile file)
+        public async Task<int> CreateCourse(Course course)
+        {
+
+            // add the file to blob
+            var file = course.CourseVideoFile;
+            var url = await UploadFileToBlob(file);
+
+            // breaking the url.
+
+            var BlobName = url.Split('/').Last();
+
+            course.BlobName = BlobName;
+       
+             await _courseRepository.CreateNewCourse(course);
+
+            return 0;
+        }
+
+        public async Task<string> UploadFileToBlob(IFormFile file)
         {
             var azureContainerName = _appSettings.ContainerName;
             var connectionString = _appSettings.ConnectionString;
@@ -31,7 +49,7 @@ namespace ILearnSmartProject.Services
             // from this method not repository.
             var sucess = await _courseRepository.UploadFileToBlob(file, azureContainerName, connectionString);
 
-            return 0;
+            return sucess;
         }
 
         public async Task<IFormFile> FetchBlobFileFromAzure(string blobUrl)

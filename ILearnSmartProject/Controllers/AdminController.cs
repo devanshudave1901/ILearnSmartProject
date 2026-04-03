@@ -21,6 +21,11 @@ namespace ILearnSmartProject.Controllers
            
             return View();
         }
+
+        public ActionResult CreateOrEditCourse()
+        {
+            return View();
+        }
         public IActionResult GetVideo()
         {
             var file = _courseAppService.FetchBlobFileFromAzure("https://ilearnsmart.blob.core.windows.net/coursevideos/DevanshuDave_A1_Recording.mp4").Result;

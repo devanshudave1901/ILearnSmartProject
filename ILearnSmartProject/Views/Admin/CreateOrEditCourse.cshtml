@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminPagesLayout.cshtml";
+    var errorMessage = ViewBag.ErrorMessage;
+}
+
+@model ILearnSmartProject.Models.Course
+
+<h4>Add Course</h4>
+<hr />
+<div class="mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-4">
+            <form asp-controller="Course" class="Course" asp-action="SubmitCourse" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group mt-3">
+                    <label asp-for="CourseTitle" class="control-label"></label>
+                    <input asp-for="CourseTitle" class="form-control" />
+                    <span asp-validation-for="CourseTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="CourseDescription" class="control-label"></label>
+                    <input asp-for="CourseDescription" class="form-control" />
+                    <span asp-validation-for="CourseDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="CoursePrice" class="control-label"></label>
+                    <input asp-for="CoursePrice" class="form-control" />
+                    <span asp-validation-for="CoursePrice" class="text-danger"></span>
+                </div>
+                <div class="form-row mt-3">
+                    <div class="form-group col">
+                        <label asp-for="CourseVideoFile" class="control-label"></label>
+                        <input asp-for="CourseVideoFile" class="form-control" type="file" name="CourseVideoFile" id="CourseVideoFile" accept="video/*" />
+                    </div>
+                    <div class="form-group form-check mt-3 col">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CourseEnabled" /> @Html.DisplayNameFor(model => model.CourseEnabled)
+                        </label>
+                    </div>
+                </div>
+      
+                <div class="form-group mt-3 d-flex justify-content-center">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

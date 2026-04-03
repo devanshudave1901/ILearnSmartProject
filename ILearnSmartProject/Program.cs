@@ -2,6 +2,7 @@ using ILearnSmartProject.Models;
 using ILearnSmartProject.Payment.StripeManager;
 using ILearnSmartProject.Repositories;
 using ILearnSmartProject.Services;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,6 +40,24 @@ builder.Services.Configure<Course>(builder.Configuration.GetSection("AzureBlobSt
 builder.Services.Configure<AzureBlobModel>(builder.Configuration.GetSection("AzureBlobStorage"));
 
 builder.Services.Configure<KestrelServerOptions>(options => {
+    options.Limits.MaxRequestBodySize = null; // Unlimited
+});
+
+// solving The page was not displayed because the request entity is too large. error in uploading to blob storage by setting the max request body size to unlimited in kestrel server options.
+builder.Services.Configure<IISServerOptions>(options => {
+    options.MaxRequestBodySize = null; // Unlimited
+});
+
+
+builder.Services.Configure<KestrelServerOptions>(options => {
+    options.Limits.MaxRequestBodySize = null; // 100 MB
+});
+
+builder.Services.Configure<FormOptions>(options => {
+    options.MultipartBodyLengthLimit = long.MaxValue;
+});
+builder.WebHost.ConfigureKestrel(options =>
+{
     options.Limits.MaxRequestBodySize = null; // Unlimited
 });
 var app = builder.Build();
