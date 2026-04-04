@@ -2,13 +2,10 @@
     Layout = "~/Views/Shared/_StudentHomeLayout.cshtml";
     var errorMessage = ViewBag.ErrorMessage;
     var course1 = ViewBag.courses;
-
-
 }
 
 
-<h2>Availaible Courses </h2>
-
+<h2>List of your purchased Courses </h2>
 
 @model ILearnSmartProject.Models.Course
 <style>
@@ -95,32 +92,34 @@
 </style>
 
 <div class="row mt-5">
-    @if(course1 == null)
+    @if (course1 == null)
     {
         <div class="alert alert-danger" role="alert">
             No courses available
         </div>
     }
-    else{
-    @for (int i = 0; i < course1.Count; i++)
+    else
     {
-        <div class="col-sm-3">
-            <div class="card" style="width: 18rem;">
-                <img src="../images/course1.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">@course1[i].CourseTitle</h5>
-                    <p class="card-text">@course1[i].CourseDescription</p>
-                    <p class="card-text">Price:- $@course1[i].CoursePrice</p>
+        @for (int i = 0; i < course1.Count; i++)
+        {
+            <div class="col-sm-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="../images/course1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@course1[i].CourseTitle</h5>
+                        <p class="card-text">@course1[i].CourseDescription</p>
+                        <p class="card-text">Price:- $@course1[i].CoursePrice</p>
 
-                    <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-center">
                 
-                            <a asp-action="CheckoutPage" asp-controller="Student" asp-route-id="@course1[i].Id" class="btn btn-primary">Purchase</a>
+                            <a asp-action="StudentViewPage" asp-controller="Student" asp-route-id="@course1[i].Id" class="btn btn-primary">Open</a>
+
 
                        
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         
         }
     }

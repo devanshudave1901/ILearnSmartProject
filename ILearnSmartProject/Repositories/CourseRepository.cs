@@ -55,16 +55,7 @@ namespace ILearnSmartProject.Repositories
         }
         public async Task<int> UpdateCourse(Course course)
         {
-            
-
-
-             //_learnSmartContext.Courses.Update(entityUpdate);   
-            // update the course with the given id with the new data
-            //var commandCourse = await _learnSmartContext.Courses.Where(u => u.Id == course.Id).FirstOrDefaultAsync();
-
-            //var newData = course;
-
-            //commandCourse= newData;
+  
             var update = _learnSmartContext.Courses.Update(course);
 
             var result = await _learnSmartContext.SaveChangesAsync();

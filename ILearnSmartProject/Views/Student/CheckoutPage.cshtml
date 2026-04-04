@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "~/Views/Shared/_StudentHomeLayout.cshtml";
+   // var errorMessage = ViewBag.ErrorMessage;
+    var course1 = ViewBag.courses;
+
+
+}
+
+<h2>CheckOut Page </h2>
+
+
+<div class="card rounded-5 mt-2" style="width: 100%; height: 40rem">
+    <div class="card-header d-flex justify-content-center">
+        <h4>@course1[0].CourseTitle</h4>
+    </div>
+
+
+    <div class="card-body">
+        <img src="~/images/course1.jpg" class="card-img-top h-50" alt="...">
+         <p class="card-text">@course1[0].CourseDescription</p>
+            <div class="card-footer d-flex justify-content-center mt-lg-5">
+                <a asp-action="Payment" asp-controller="Student" asp-route-id="@course1[0].Id" class="btn btn-primary w-25 ">Pay @course1[0].CoursePrice</a>
+
+            </div>
+    </div>
+  
+
+</div>

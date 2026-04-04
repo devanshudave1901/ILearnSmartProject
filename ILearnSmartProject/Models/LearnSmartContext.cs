@@ -15,8 +15,10 @@ namespace ILearnSmartProject.Models
         public  DbSet<UsersType> UsersTypes { get; set; }
 
         public DbSet<Course> Courses { get; set; }
+        public DbSet<CoursesUserPurchase> CoursesUserPurchases { get; set; }
 
 
+        
 
     }
 }

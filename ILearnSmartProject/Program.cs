@@ -12,8 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<UserAppService>();
+builder.Services.AddScoped<CoursesUserPurchaseService>();
 builder.Services.AddScoped<CourseAppService>();
 builder.Services.AddScoped<EmailAppService>();
+
+
 
 builder.Services.AddScoped<ICheckOutSession,StripeAdaptorManager>();
 // ADDING CheckoutAppSercice to buildier class for me to usse it in thehome controller
@@ -22,6 +25,9 @@ builder.Services.AddScoped<CheckOutAppService>();
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<CourseRepository>();
+builder.Services.AddScoped<CoursesUserPurchaseRepository>();
+
+
 
 builder.Services.AddDistributedMemoryCache();
 // setting up the session usage for this application

@@ -24,9 +24,9 @@ namespace ILearnSmartProject.Services
 
 
 
-        public async Task<List<string>> CreateCheckOutSession(string priceId, string successUrl, string cancelUrl)
+        public async Task<List<string>> CreateCheckOutSession(string courseId, string successUrl, string cancelUrl)
         {
-            var sessionDetails = await _checkOutSession.CreateCheckOutSession(priceId, successUrl, cancelUrl);
+            var sessionDetails = await _checkOutSession.CreateCheckOutSession(courseId,successUrl, cancelUrl);
             return sessionDetails;
 
         }
