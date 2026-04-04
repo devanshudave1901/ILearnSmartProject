@@ -1,18 +1,25 @@
 ﻿using ILearnSmartProject.Interfaces;
+using ILearnSmartProject.Services;
+
 
 namespace ILearnSmartProject.Models
 {
     public class Email : IObserver
     {
-        public void Notify(string message)
+
+
+        private EmailAppService _emailAppService;
+       
+
+        public Email(EmailAppService emailAppService)
         {
-            // Simulate sending an email by printing the message to the console
-            var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            _emailAppService = emailAppService;
+        }
 
-            var emailContent = $"[Email Notification] {timestamp}: {message}";
-
-            Console.WriteLine(emailContent);
-
+        public async Task Notify(string message, string emailAddress)
+        {
+            var email = await _emailAppService.SendEmailAsync(message, emailAddress);
+            
 
         }
     }

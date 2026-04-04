@@ -6,7 +6,7 @@ namespace ILearnSmartProject.Interfaces
     public interface IObserver
     {
 
-        public void Notify(string message);
+        public  Task Notify(string message, string emailAddress);
 
 
     }

@@ -13,6 +13,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<UserAppService>();
 builder.Services.AddScoped<CourseAppService>();
+builder.Services.AddScoped<EmailAppService>();
+
 builder.Services.AddScoped<ICheckOutSession,StripeAdaptorManager>();
 // ADDING CheckoutAppSercice to buildier class for me to usse it in thehome controller
 builder.Services.AddScoped<CheckOutAppService>();
@@ -38,6 +40,10 @@ builder.Services.AddDbContext<LearnSmartContext>(options =>
 builder.Services.Configure<StripeModel>(builder.Configuration.GetSection("Stripe"));
 builder.Services.Configure<Course>(builder.Configuration.GetSection("AzureBlobStorage"));
 builder.Services.Configure<AzureBlobModel>(builder.Configuration.GetSection("AzureBlobStorage"));
+builder.Services.Configure<SMTPConnection>(builder.Configuration.GetSection("SMTP"));
+
+
+
 
 builder.Services.Configure<KestrelServerOptions>(options => {
     options.Limits.MaxRequestBodySize = null; // Unlimited

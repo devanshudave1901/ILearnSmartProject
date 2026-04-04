@@ -28,6 +28,11 @@ namespace ILearnSmartProject.Services
             return userData;
         }
 
+        public async Task<string> LoggedInUserEmail(string id)
+        {
+            var userEmail = await _userRepository.LoggedInUserEmail(id);
+            return userEmail;
+        }
         public async Task<int> CheckLogin(string email, string password)
         {
             var userData = await _userRepository.CheckLogin(email, password);
@@ -39,6 +44,11 @@ namespace ILearnSmartProject.Services
             var userType = await _userRepository.LoginUserType(email);
             return userType;
 
+        }
+        public async Task<int> GetUserIdByEmail(string email)
+        {
+            var userId = await _userRepository.GetUserByEmail(email);
+            return userId.Id;
         }
         public async Task<int> RegisterUser(string FirstName, string LastName, string EmailAddress, string Password)
         {

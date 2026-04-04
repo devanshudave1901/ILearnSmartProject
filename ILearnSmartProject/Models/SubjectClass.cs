@@ -14,11 +14,11 @@ namespace ILearnSmartProject.Models
         {
             observers.Remove(observer);
         }
-        public void NotifyObservers(string message)
+        public void NotifyObservers(string message, string emailAddress)
         {
             foreach (var observer in observers)
             {
-                observer.Notify(message);
+                observer.Notify(message,emailAddress);
             }
         }
          

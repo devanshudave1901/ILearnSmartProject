@@ -80,7 +80,8 @@ namespace ILearnSmartProject.Controllers
             else
             {
                 var type = await _userAppService.LoginUserType(email);
-                var sessionID = SetSession("1");
+                var users = await _userAppService.GetUserIdByEmail(email);
+                var sessionID = SetSession(users.ToString());
       
                 ViewBag.SessionID = sessionID;
                 if(type == "Admin")

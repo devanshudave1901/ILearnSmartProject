@@ -1,6 +1,7 @@
 ﻿using ILearnSmartProject.Interfaces;
 using ILearnSmartProject.Models;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Bcpg;
 
 namespace ILearnSmartProject.Repositories
 {
@@ -27,7 +28,13 @@ namespace ILearnSmartProject.Repositories
             var userCount = await _learnSmartContext.Users.Where(u => u.EmailAddress == email && u.Password == password).CountAsync();
             return userCount;
         }
-
+        public async Task<string> LoggedInUserEmail(string id)
+        {
+            var userEmail = await _learnSmartContext.Users.Where(u => u.Id.ToString() == id).ToListAsync();
+            var email = userEmail[0].EmailAddress.ToString();
+            return email;
+        }
+        
         public async Task<string> LoginUserType(string email)
         {
             var userType = await (from user in _learnSmartContext.Users
@@ -37,9 +44,17 @@ namespace ILearnSmartProject.Repositories
                            {
                                Id = usersType.Id,
                                Name = usersType.UserTypeName,
+                             
                            }).ToListAsync();
             return userType[0].Name;
         }
+
+        public async Task<Users> GetUserByEmail(string email)
+        {
+            var userData = await _learnSmartContext.Users.Where(u => u.EmailAddress == email).ToListAsync();
+            return userData[0];
+        }
+
         public async Task<int> RegisterUser(string FirstName, string LastName, string EmailAddress, string Password)
         {
             DateTime CreationDate = DateTime.Now;

@@ -9,11 +9,14 @@ namespace ILearnSmartProject.Controllers
     public class CourseController : Controller
     {
         private CourseAppService _courseAppService;
+        private UserAppService _userAppService;
 
-
-        public CourseController(CourseAppService courseAppService)
+        private EmailAppService _emailAppService;
+        public CourseController(CourseAppService courseAppService, EmailAppService emailAppService, UserAppService userAppService)
         {
             _courseAppService = courseAppService;
+            _emailAppService = emailAppService;
+            _userAppService = userAppService;
         }
         // GET: CourseController
         public ActionResult Index()
@@ -29,19 +32,26 @@ namespace ILearnSmartProject.Controllers
         [RequestFormLimits(MultipartBodyLengthLimit = 200_000_000)]
         public async Task<ActionResult> SubmitCourse([FromForm] Course course)
         {
+            // getting id from the session
+            var sessionUserID = HttpContext.Session.GetString("id");
+
+            // fetch the emailaddress based on userID
+
+            var emailAddress = await _userAppService.LoggedInUserEmail(sessionUserID);
+
             SubjectClass subjectClass = new SubjectClass();
-            Email emailObserver = new Email();
+            Email emailObserver = new Email(_emailAppService);
             subjectClass.Subscribe(emailObserver);
 
             if (course.IsEdit == "true")
             {
                 await _courseAppService.UpdateCourse(course);
-               subjectClass.NotifyObservers("Course with ID: " + course.Id + " has been updated.");
+               subjectClass.NotifyObservers("Course with ID: " + course.Id + " has been updated.", emailAddress);
             }
             else
             {
                 var courseId = await _courseAppService.CreateCourse(course);
-                subjectClass.NotifyObservers("New course created with ID: " + courseId);
+                subjectClass.NotifyObservers("New course created with ID: " + courseId, emailAddress);
             }
 
             //var courseId = await _courseAppService.UploadFileToBlob(course.CourseVideoFile);
