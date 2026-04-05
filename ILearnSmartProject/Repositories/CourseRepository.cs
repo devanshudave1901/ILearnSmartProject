@@ -89,6 +89,18 @@ namespace ILearnSmartProject.Repositories
             return courses;
 
         }
+        public async Task<List<CoursesUserPurchase>> GetStudentCourseById(int id, string sessionUserID)
+        {
+            // including the data from the course user purhceses to know whether the course is marked as finished or not
+            var courses = await (from c in _learnSmartContext.Courses
+                                 join cup in _learnSmartContext.CoursesUserPurchases on c.Id equals cup.Course.Id
+                                 where c.Id == id && _learnSmartContext.CoursesUserPurchases.Any(e => e.Course.Id == c.Id && e.User.Id.ToString() == sessionUserID)
+                                 // including the coursesUserPurchases data along with courses
+                                select cup).Include(c => c.Course).Include(u=>u.User).ToListAsync();
+            return courses;
+
+        }
+        
         public async Task<int> DeleteCourse(int id)
         {
             var course = await _learnSmartContext.Courses.Where(u => u.Id == id).ExecuteDeleteAsync();

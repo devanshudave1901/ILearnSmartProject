@@ -4,7 +4,7 @@ using System.Reflection.Metadata;
 
 namespace ILearnSmartProject.Models
 {
-    public class CoursesUserPurchase
+    public class CourseCertificates
     {
 
         public int Id { get; set; }
@@ -12,8 +12,6 @@ namespace ILearnSmartProject.Models
         public Course Course { get; set; }
 
         public Users User { get; set; }
-
-        public bool IsCompleted { get; set; }
 
     }
 }

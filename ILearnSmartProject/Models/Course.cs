@@ -22,8 +22,8 @@ namespace ILearnSmartProject.Models
         public required string BlobName { get; set; }
         [NotMapped]
         public required string IsEdit { get; set; }
+   
 
-        
 
         // handling the video uploaded by the user
         [NotMapped]

@@ -11,6 +11,6 @@ namespace ILearnSmartProject.Interfaces
         public Task<int> DeleteCourse(int id);
         public Task<List<Course>> GetAllStudentCourses(string userId);
 
-        
+        public Task<List<CoursesUserPurchase>> GetStudentCourseById(int id, string sessionUserID);
     }
 }

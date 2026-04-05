@@ -24,6 +24,19 @@ namespace ILearnSmartProject.Controllers
             ViewBag.courses = courses.ToList();
             return View();
         }
+        public async Task<ActionResult> MyCertificates()
+        {
+            var userId = HttpContext.Session.GetString("id");
+            return View();
+        }
+        //MyCertificates.cshtml
+        public async Task<ActionResult> MarkAsCompeted(int id)
+        {
+            var userId = HttpContext.Session.GetString("id");
+            var course = await _coursesUserPurchaseService.MarkCompleted(id,userId);
+            return RedirectToAction("StudentViewPage", new { id = id });
+        }
+        
         public async Task<ActionResult> CheckoutPage(int id)
         {
             var course = _courseAppService.GetCourseById(id).Result;
@@ -56,8 +69,9 @@ namespace ILearnSmartProject.Controllers
         }
         public async Task<IActionResult> StudentViewPage(int Id)
         {
+            string sessionUserID = HttpContext.Session.GetString("id");
 
-            var course = _courseAppService.GetCourseById(Id).Result;
+            var course = _courseAppService.GetStudentCourseById(Id, sessionUserID).Result;
 
             //var fetchVideo = await _courseAppService.FetchBlobFileFromAzure(course[0].BlobName);
 

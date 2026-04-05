@@ -107,6 +107,12 @@ namespace ILearnSmartProject.Services
         {
             return await _courseRepository.GetCourseById(id);
         }
+        public async Task<List<CoursesUserPurchase>> GetStudentCourseById(int id, string sessionUserID)
+        {
+            return await _courseRepository.GetStudentCourseById(id,sessionUserID);
+        }
+
+        
         public async Task<int> DeleteCourse(int id)
         {
             return await _courseRepository.DeleteCourse(id);

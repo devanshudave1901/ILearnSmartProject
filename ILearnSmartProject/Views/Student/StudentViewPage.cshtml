@@ -61,7 +61,7 @@
         <div class="col-12 col-md-8">
             <div class="ratio ratio-16x9">
                 <video controls width="600">
-                    <source src="@Url.Action("GetVideo", "Admin", new { blobName = course1[0].BlobName })" type="video/mp4">
+                    <source src="@Url.Action("GetVideo", "Admin", new { blobName = course1[0].Course.BlobName })" type="video/mp4">
                 </video>
             </div>
         </div>
@@ -70,11 +70,32 @@
                 <div class="card-image">
                     <img src="~/images/course1.jpg" class="card-img-top" alt="...">
                 </div>
-                <p class="card-title">@course1[0].CourseTitle</p>
+                    <p class="card-title">@course1[0].Course.CourseTitle</p>
                 <p class="card-body">
-                    @course1[0].CourseDescription
+                        @course1[0].Course.CourseDescription
                 </p>
-     
+                @if (course1[0].IsCompleted == false)
+                {
+                 
+                    <div class="d-flex justify-content-center">
+                
+                            <a asp-action="MarkAsCompeted" asp-controller="Student" asp-route-id="@course1[0].Course.Id"  class="btn btn-primary">Mark As Completed</a>
+            
+                        </div>
+                       
+                    }
+                    else 
+                    {
+                 
+                        <div class="d-flex justify-content-center">
+                
+                            <a asp-action="ViewCertificate" asp-controller="Student" asp-route-id="@course1[0].Course.Id" class="btn btn-primary">View Cetificate</a>
+
+
+                       
+                        </div>
+                       
+                    }
             </div>
         </div>
     </div>

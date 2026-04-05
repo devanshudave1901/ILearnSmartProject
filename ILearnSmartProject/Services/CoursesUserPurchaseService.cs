@@ -33,7 +33,13 @@ namespace ILearnSmartProject.Services
         {
             return await _coursePurchaseRepository.GetAllPurchasesByUserId(userId);
         }
+        public async Task<CoursesUserPurchase> MarkCompleted(int id, string userId)
+        {
+            return await _coursePurchaseRepository.MarkCompleted(id,userId);
+        }
 
+
+        
 
 
      }

@@ -30,7 +30,19 @@ namespace ILearnSmartProject.Repositories
             var result = _learnSmartContext.SaveChangesAsync().Result;
             return 0;
         }
-
+        public async Task<CoursesUserPurchase> MarkCompleted(int id, string userId)
+        {
+           // update the entry to completed where course id = id and user id = userId
+            var coursePurchase = await _learnSmartContext.CoursesUserPurchases.Where(u => u.Course.Id == id && u.User.Id.ToString() == userId).FirstOrDefaultAsync();
+            if (coursePurchase != null)
+            {
+                coursePurchase.IsCompleted = true;
+                _learnSmartContext.CoursesUserPurchases.Update(coursePurchase);
+                await _learnSmartContext.SaveChangesAsync();
+                return coursePurchase;
+            }
+            return coursePurchase;
+        }
         public async Task<List<Course>> GetAllPurchasesByUserId(string userId)
         {
             var purchases = await _learnSmartContext.CoursesUserPurchases.Where(u => u.User.Id.ToString() == userId).Include(c => c.Course).Include(u=>u.User).ToListAsync();
@@ -48,6 +60,7 @@ namespace ILearnSmartProject.Repositories
                                       CourseEnabled = course.CourseEnabled,
                                       BlobName = course.BlobName,
                                       IsEdit = course.IsEdit
+
                                   }).ToList();
 
 
