@@ -30,7 +30,7 @@ namespace ILearnSmartProject.Services
             email.To.Add(MailboxAddress.Parse(emailAddress));
             email.Subject = "iLearnSmart Notification";
             email.Body = new TextPart(TextFormat.Plain) { Text = emailContent };
-
+        
 
             using var smtp = new SmtpClient();
             smtp.Connect(_appSettings.Host, _appSettings.Port, SecureSocketOptions.StartTls);

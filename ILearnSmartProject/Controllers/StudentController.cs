@@ -1,6 +1,8 @@
-﻿using ILearnSmartProject.Services;
+﻿using ILearnSmartProject.Models;
+using ILearnSmartProject.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 
 namespace ILearnSmartProject.Controllers
 {
@@ -9,12 +11,16 @@ namespace ILearnSmartProject.Controllers
         private CourseAppService _courseAppService;
         private CheckOutAppService _checkOutAppService;
         private CoursesUserPurchaseService _coursesUserPurchaseService;
+        private EmailAppService _emailAppService;
+        private UserAppService _userAppService;
 
-        public StudentController(CourseAppService courseAppService, CheckOutAppService checkOutAppService, CoursesUserPurchaseService coursesUserPurchaseService)
+        public StudentController(CourseAppService courseAppService, CheckOutAppService checkOutAppService, CoursesUserPurchaseService coursesUserPurchaseService, EmailAppService emailAppService, UserAppService userAppService)
         {
             _courseAppService = courseAppService;
             _checkOutAppService = checkOutAppService;
             _coursesUserPurchaseService = coursesUserPurchaseService;
+            _emailAppService = emailAppService;
+            _userAppService = userAppService;
         }
         public async Task<ActionResult> Index()
         {
@@ -32,8 +38,22 @@ namespace ILearnSmartProject.Controllers
         //MyCertificates.cshtml
         public async Task<ActionResult> MarkAsCompeted(int id)
         {
+            var sessionUserID = HttpContext.Session.GetString("id");
+
+
+            var emailAddress = await _userAppService.LoggedInUserEmail(sessionUserID);
+
+            SubjectClass subjectClass = new SubjectClass();
+            Email emailObserver = new Email(_emailAppService);
+            subjectClass.Subscribe(emailObserver);
+
             var userId = HttpContext.Session.GetString("id");
             var course = await _coursesUserPurchaseService.MarkCompleted(id,userId);
+            byte[] pdfBytes = await _coursesUserPurchaseService.GeneratePDF(id, sessionUserID);
+
+            subjectClass.NotifyObservers("Congratulations! on finishing the course.", emailAddress);
+            subjectClass.Unsubscribe(emailObserver);
+
             return RedirectToAction("StudentViewPage", new { id = id });
         }
         
@@ -103,7 +123,15 @@ namespace ILearnSmartProject.Controllers
         }
         public async Task<ActionResult> SuccessAsync()
         {
-            
+
+            var sessionUserID = HttpContext.Session.GetString("id");
+
+            var emailAddress = await _userAppService.LoggedInUserEmail(sessionUserID);
+
+            SubjectClass subjectClass = new SubjectClass();
+            Email emailObserver = new Email(_emailAppService);
+            subjectClass.Subscribe(emailObserver);
+
             var stripeSessionId = HttpContext.Session.GetString("StripeSession");
 
             // reconfirming from strip that user really made the payment
@@ -113,16 +141,20 @@ namespace ILearnSmartProject.Controllers
 
             if(confirmPayment == "paid")
             {
-                var sessionUserID = HttpContext.Session.GetString("id");
                 var courseId = HttpContext.Session.GetString("course");
 
                 var purchaseEntry = await _coursesUserPurchaseService.CreateEntry(courseId, sessionUserID);
+                subjectClass.NotifyObservers("Thank You For purchasing this course. Your course access is waiting for you under MyCourses Tab. Enjoy learning new skills.", emailAddress);
+                subjectClass.Unsubscribe(emailObserver);
 
                 return RedirectToAction("MyCourses");
             }
             else
             {
                 ViewBag.errorMessage = "We were unable to process your payment. If funds were deducted from your account, please contact the Admin Control Center at learn@admin.ca for assistance.";
+                subjectClass.NotifyObservers("We were unable to process your payment. If funds were deducted from your account, please contact the Admin Control Center at learn@admin.ca for assistance.", emailAddress);
+                subjectClass.Unsubscribe(emailObserver);
+
                 return RedirectToAction("Index");
             }
            

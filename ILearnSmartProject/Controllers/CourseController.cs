@@ -35,7 +35,6 @@ namespace ILearnSmartProject.Controllers
             // getting id from the session
             var sessionUserID = HttpContext.Session.GetString("id");
 
-            // fetch the emailaddress based on userID
 
             var emailAddress = await _userAppService.LoggedInUserEmail(sessionUserID);
 
