@@ -7,5 +7,6 @@ namespace ILearnSmartProject.Interfaces
         public Task<int> CreateNewPurchaseEntry(string courseId, string userId);
         public Task<List<Course>> GetAllPurchasesByUserId(string userId);
         public  Task<CoursesUserPurchase> MarkCompleted(int id, string userId);
+        public Task<List<CourseCertificates>> GetCertificateByUser(string userId);
     }
 }

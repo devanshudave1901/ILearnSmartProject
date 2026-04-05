@@ -95,7 +95,7 @@
     @if (course1 == null)
     {
         <div class="alert alert-danger" role="alert">
-            No courses available
+            No certificate available
         </div>
     }
     else
@@ -106,13 +106,13 @@
                 <div class="card" style="width: 18rem;">
                     <img src="../images/course1.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">@course1[i].CourseTitle</h5>
-                        <p class="card-text">@course1[i].CourseDescription</p>
-                        <p class="card-text">Price:- $@course1[i].CoursePrice</p>
+                        <h5 class="card-title">@course1[i].Course.CourseTitle</h5>
+                        <p class="card-text">@course1[i].Course.CourseDescription</p>
+                        <p class="card-text">Course Finished</p>
 
                         <div class="d-flex justify-content-center">
                 
-                            <a asp-action="StudentViewPage" asp-controller="Student" asp-route-id="@course1[i].Id" class="btn btn-primary">Open</a>
+                            <a asp-action="ViewCertificate" asp-controller="Student" asp-route-id="@course1[i].Course.Id" class="btn btn-primary">Open Certificate</a>
 
 
                        

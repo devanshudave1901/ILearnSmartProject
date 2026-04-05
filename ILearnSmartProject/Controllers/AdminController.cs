@@ -1,10 +1,12 @@
 ﻿using ILearnSmartProject.Models;
 using ILearnSmartProject.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ILearnSmartProject.Controllers
 {
+    
     public class AdminController : Controller
     {
         private CourseAppService _courseAppService;

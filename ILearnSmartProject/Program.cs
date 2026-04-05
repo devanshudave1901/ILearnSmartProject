@@ -3,10 +3,12 @@ using ILearnSmartProject.Payment.StripeManager;
 using ILearnSmartProject.Repositories;
 using ILearnSmartProject.Services;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
 using QuestPDF.Infrastructure;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,7 +51,6 @@ builder.Services.Configure<StripeModel>(builder.Configuration.GetSection("Stripe
 builder.Services.Configure<Course>(builder.Configuration.GetSection("AzureBlobStorage"));
 builder.Services.Configure<AzureBlobModel>(builder.Configuration.GetSection("AzureBlobStorage"));
 builder.Services.Configure<SMTPConnection>(builder.Configuration.GetSection("SMTP"));
-
 
 
 

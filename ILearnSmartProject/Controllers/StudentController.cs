@@ -1,11 +1,13 @@
 ﻿using ILearnSmartProject.Models;
 using ILearnSmartProject.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 
 namespace ILearnSmartProject.Controllers
 {
+    
     public class StudentController : Controller
     {
         private CourseAppService _courseAppService;
@@ -33,6 +35,8 @@ namespace ILearnSmartProject.Controllers
         public async Task<ActionResult> MyCertificates()
         {
             var userId = HttpContext.Session.GetString("id");
+            var courses = await _coursesUserPurchaseService.GetCertificateByUser(userId);
+            ViewBag.courses = courses.ToList();
             return View();
         }
         //MyCertificates.cshtml

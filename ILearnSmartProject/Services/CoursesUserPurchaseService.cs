@@ -34,7 +34,10 @@ namespace ILearnSmartProject.Services
             return await _coursePurchaseRepository.GetAllPurchasesByUserId(userId);
         }
         //GeneratePDF
-
+        public async Task<List<CourseCertificates>> GetCertificateByUser(string userId)
+        {
+            return await _coursePurchaseRepository.GetCertificateByUser(userId);
+        }
         public async Task<byte[]> GeneratePDF(int courseId, string userId)
         {
             return await _coursePurchaseRepository.GeneratePDF(courseId,userId);

@@ -38,11 +38,40 @@ namespace ILearnSmartProject.Repositories
             {
                 coursePurchase.IsCompleted = true;
                 _learnSmartContext.CoursesUserPurchases.Update(coursePurchase);
+                CourseCertificates courseCertificate = new CourseCertificates();
+                var course = await _learnSmartContext.Courses.Where(u => u.Id == id).FirstOrDefaultAsync();
+                var user = await _learnSmartContext.Users.Where(u => u.Id.ToString() == userId).FirstOrDefaultAsync();
+                courseCertificate.Course = course;
+                courseCertificate.User = user;
+                // adding new entry to Course Cerificates table
+                var addEntry = await _learnSmartContext.CertificatesIssued.AddAsync(courseCertificate);
                 await _learnSmartContext.SaveChangesAsync();
                 return coursePurchase;
             }
+
+
             return coursePurchase;
         }
+
+        public async Task<List<CourseCertificates>> GetCertificateByUser(string userId)
+        {
+            var certificates = await _learnSmartContext.CertificatesIssued.Where(u => u.User.Id.ToString() == userId).Include(c => c.Course).Include(u => u.User).ToListAsync();
+
+            var coursePurchase = (from purchase in certificates
+                                  join course in _learnSmartContext.Courses on purchase.Course.Id equals course.Id
+                                  where purchase.User.Id.ToString() == userId
+                                  select new CourseCertificates
+                                  {
+                                      Id = course.Id,
+                                     Course = purchase.Course,
+                                     User= purchase.User,
+
+                                  }).ToList();
+
+
+            return coursePurchase;
+        }
+
         public async Task<List<Course>> GetAllPurchasesByUserId(string userId)
         {
             var purchases = await _learnSmartContext.CoursesUserPurchases.Where(u => u.User.Id.ToString() == userId).Include(c => c.Course).Include(u => u.User).ToListAsync();
