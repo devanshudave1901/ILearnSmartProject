@@ -41,6 +41,9 @@ namespace ILearnSmartProject.Controllers
             sessionDetails.Wait();
             var sessionId = sessionDetails.Result[0];
             var url = sessionDetails.Result[1];
+
+            HttpContext.Session.SetString("StripeSession", sessionId);
+
             return Redirect(url);
         }
         public async Task<ActionResult> MyCourses()
@@ -75,14 +78,28 @@ namespace ILearnSmartProject.Controllers
         public async Task<ActionResult> SuccessAsync()
         {
             
+            var stripeSessionId = HttpContext.Session.GetString("StripeSession");
+
+            // reconfirming from strip that user really made the payment
+
             
+            var confirmPayment = await _checkOutAppService.ConfirmPayment(stripeSessionId);
 
-            var sessionUserID = HttpContext.Session.GetString("id");
-            var courseId  = HttpContext.Session.GetString("course");
+            if(confirmPayment == "paid")
+            {
+                var sessionUserID = HttpContext.Session.GetString("id");
+                var courseId = HttpContext.Session.GetString("course");
 
-            var purchaseEntry = await _coursesUserPurchaseService.CreateEntry(courseId, sessionUserID);
+                var purchaseEntry = await _coursesUserPurchaseService.CreateEntry(courseId, sessionUserID);
 
-            return RedirectToAction("MyCourses");
+                return RedirectToAction("MyCourses");
+            }
+            else
+            {
+                ViewBag.errorMessage = "We were unable to process your payment. If funds were deducted from your account, please contact the Admin Control Center at learn@admin.ca for assistance.";
+                return RedirectToAction("Index");
+            }
+           
 
         }
     }

@@ -72,7 +72,23 @@ namespace ILearnSmartProject.Payment.StripeManager
             return sessionDetails;
         }
 
- 
+        public async Task<string> ConfirmPayment(string sessionId)
+        {
+            // confirm the payment and return the status to the client
+            string session = sessionId;
+            string apiKey = _model.Value.SecretKey;
+
+            StripeConfiguration.ApiKey = apiKey;
+
+            var serice = new Stripe.Checkout.SessionService();
+            Stripe.Checkout.Session sessionDetails = serice.Get(session);
+
+            return sessionDetails.PaymentStatus;
+
+
+        }
+
+
 
     }
 }

@@ -54,8 +54,7 @@ namespace ILearnSmartProject.Controllers
                 subjectClass.NotifyObservers("New course created with ID: " + courseId, emailAddress);
             }
 
-            //var courseId = await _courseAppService.UploadFileToBlob(course.CourseVideoFile);
-            // implement email observer feature to notify
+
             subjectClass.Unsubscribe(emailObserver);
 
 

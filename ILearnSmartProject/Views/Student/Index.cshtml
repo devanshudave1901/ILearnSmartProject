@@ -95,6 +95,12 @@
 </style>
 
 <div class="row mt-5">
+    @if(ViewBag.errorMessage != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.errorMessage
+        </div>
+    }
     @if(course1 == null)
     {
         <div class="alert alert-danger" role="alert">

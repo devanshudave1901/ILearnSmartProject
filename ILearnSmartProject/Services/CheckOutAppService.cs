@@ -31,7 +31,12 @@ namespace ILearnSmartProject.Services
 
         }
 
-
+        public async Task<string> ConfirmPayment(string sessionId)
+        {
+            // confirm the payment and return the status to the client
+            var paymentStatus = await _checkOutSession.ConfirmPayment(sessionId);
+            return paymentStatus;
+        }
 
 
     }
