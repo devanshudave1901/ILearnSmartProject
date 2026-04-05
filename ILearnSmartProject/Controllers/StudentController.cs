@@ -86,8 +86,7 @@ namespace ILearnSmartProject.Controllers
             // pdf generation
              byte[] pdfBytes = await _coursesUserPurchaseService.GeneratePDF(id, sessionUserID);
 
-            // new tab will open in browser with the pdf content
-            return File(pdfBytes, "application/pdf", $"Certificate_Course_{id}.pdf");
+            return File(pdfBytes, "application/pdf");
 
         }
 

@@ -76,6 +76,7 @@ builder.WebHost.ConfigureKestrel(options =>
 });
 
 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+QuestPDF.Settings.UseEnvironmentFonts = false;
 
 var app = builder.Build();
 
