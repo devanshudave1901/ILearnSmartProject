@@ -18,8 +18,9 @@ namespace ILearnSmartProject.Controllers
         }
         public async Task<ActionResult> Index()
         {
+            var userId = HttpContext.Session.GetString("id");
 
-            var courses = await _courseAppService.GetAllCourses();
+            var courses = await _courseAppService.GetAllStudentCourses(userId);
             ViewBag.courses = courses.ToList();
             return View();
         }

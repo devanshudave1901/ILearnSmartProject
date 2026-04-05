@@ -7,6 +7,8 @@ using System;
 using System.IO;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+
 
 namespace ILearnSmartProject.Repositories
 {
@@ -68,6 +70,19 @@ namespace ILearnSmartProject.Repositories
             return courses;
 
         }
+        public async Task<List<Course>> GetAllStudentCourses(string userId)
+        {
+            // RETRIVING THE COURSEs that are not entrolled by the student
+
+            var courses = await(from c in _learnSmartContext.Courses
+                where !_learnSmartContext.CoursesUserPurchases.Any(e => e.Course.Id == c.Id && e.User.Id.ToString() == userId)
+                select c).ToListAsync();
+
+            //var courses = await _learnSmartContext.Courses.).ToListAsync();
+            return courses;
+
+        }
+        
         public async Task<List<Course>> GetCourseById(int id)
         {
             var courses = await _learnSmartContext.Courses.Where(u=>u.Id == id).ToListAsync();

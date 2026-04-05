@@ -99,7 +99,10 @@ namespace ILearnSmartProject.Services
         {
             return await _courseRepository.GetAllCourses();
         }
-
+        public async Task<List<Course>> GetAllStudentCourses(string userId)
+        {
+            return await _courseRepository.GetAllStudentCourses(userId);
+        }
         public async Task<List<Course>> GetCourseById(int id)
         {
             return await _courseRepository.GetCourseById(id);
