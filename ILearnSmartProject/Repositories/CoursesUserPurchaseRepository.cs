@@ -32,7 +32,7 @@ namespace ILearnSmartProject.Repositories
         }
         public async Task<CoursesUserPurchase> MarkCompleted(int id, string userId)
         {
-           // update the entry to completed where course id = id and user id = userId
+            // update the entry to completed where course id = id and user id = userId
             var coursePurchase = await _learnSmartContext.CoursesUserPurchases.Where(u => u.Course.Id == id && u.User.Id.ToString() == userId).FirstOrDefaultAsync();
             if (coursePurchase != null)
             {
@@ -45,7 +45,7 @@ namespace ILearnSmartProject.Repositories
         }
         public async Task<List<Course>> GetAllPurchasesByUserId(string userId)
         {
-            var purchases = await _learnSmartContext.CoursesUserPurchases.Where(u => u.User.Id.ToString() == userId).Include(c => c.Course).Include(u=>u.User).ToListAsync();
+            var purchases = await _learnSmartContext.CoursesUserPurchases.Where(u => u.User.Id.ToString() == userId).Include(c => c.Course).Include(u => u.User).ToListAsync();
 
 
             var coursePurchase = (from purchase in purchases
@@ -66,6 +66,16 @@ namespace ILearnSmartProject.Repositories
 
             return coursePurchase;
 
+        }
+        public async Task<byte[]> GeneratePDF(int courseId, string userId)
+        {
+            var coursePurchase = await _learnSmartContext.CoursesUserPurchases.Where(u => u.Course.Id == courseId && u.User.Id.ToString() == userId).Include(c => c.Course).Include(u => u.User).FirstOrDefaultAsync();
+            if (coursePurchase != null && coursePurchase.IsCompleted)
+            {
+                PDF_Generation pdfGenerator = new PDF_Generation(_learnSmartContext);
+                return pdfGenerator.GeneratePDF(courseId.ToString(), userId);
+            }
+            return null;
         }
     }
 }

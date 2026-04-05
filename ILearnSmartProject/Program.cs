@@ -5,6 +5,9 @@ using ILearnSmartProject.Services;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
+using QuestPDF.Infrastructure;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +18,6 @@ builder.Services.AddScoped<UserAppService>();
 builder.Services.AddScoped<CoursesUserPurchaseService>();
 builder.Services.AddScoped<CourseAppService>();
 builder.Services.AddScoped<EmailAppService>();
-
 
 
 builder.Services.AddScoped<ICheckOutSession,StripeAdaptorManager>();
@@ -72,6 +74,9 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     options.Limits.MaxRequestBodySize = null; // Unlimited
 });
+
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

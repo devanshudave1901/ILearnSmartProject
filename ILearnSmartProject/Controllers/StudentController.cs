@@ -79,6 +79,18 @@ namespace ILearnSmartProject.Controllers
             ViewBag.courses = course.ToList();
             return View();
         }
+
+        public async Task<ActionResult> ViewCertificate(int id)
+        {
+            var sessionUserID = HttpContext.Session.GetString("id");
+            // pdf generation
+             byte[] pdfBytes = await _coursesUserPurchaseService.GeneratePDF(id, sessionUserID);
+
+            // new tab will open in browser with the pdf content
+            return File(pdfBytes, "application/pdf", $"Certificate_Course_{id}.pdf");
+
+        }
+
         public async Task<IActionResult> GetVideoAsync(string blobName)
         {
             //var file = _courseAppService.FetchBlobFileFromAzure("https://ilearnsmart.blob.core.windows.net/coursevideos/DevanshuDave_A1_Recording.mp4").Result;
