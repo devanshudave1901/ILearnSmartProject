@@ -60,10 +60,7 @@ namespace ILearnSmartProject.Controllers
             return RedirectToAction("AdminCourseControl", "Admin");
         }
 
-        // GET: CourseController/Create
-     
-
-        // POST: CourseController/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
