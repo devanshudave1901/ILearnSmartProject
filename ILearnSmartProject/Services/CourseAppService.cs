@@ -71,6 +71,13 @@ namespace ILearnSmartProject.Services
             return sucess;
         }
 
+        public async Task<List<int>> GetDashboardData()
+        {
+            var data = await _courseRepository.GetDashboardData();
+
+            return data;
+        }
+
         public async Task<IFormFile> FetchBlobFileFromAzure(string blobUrl)
         {
             var azureContainerName = _appSettings.ContainerName;

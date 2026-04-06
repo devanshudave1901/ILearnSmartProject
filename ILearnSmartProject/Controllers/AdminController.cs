@@ -17,8 +17,12 @@ namespace ILearnSmartProject.Controllers
             _courseAppService = courseAppService;
         }
         // GET: CourseController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+
+            var dashboardData = await _courseAppService.GetDashboardData();
+
+            ViewBag.DashboardData = dashboardData;
 
             return View();
         }

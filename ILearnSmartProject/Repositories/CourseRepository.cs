@@ -89,6 +89,19 @@ namespace ILearnSmartProject.Repositories
             return courses;
 
         }
+
+        public async Task<List<int>> GetDashboardData()
+        {
+            var totalCoursesRevenue = await (from cup in _learnSmartContext.CoursesUserPurchases
+                    join c in _learnSmartContext.Courses on cup.Course.Id equals c.Id
+                    select c.CoursePrice).SumAsync();
+            var revenue = Convert.ToInt32(totalCoursesRevenue);
+            var totalStudents = await _learnSmartContext.Users.CountAsync();
+            var totalPurchases = await _learnSmartContext.CertificatesIssued.CountAsync();
+
+            return new List<int> { revenue, totalStudents, totalPurchases };
+        }
+
         public async Task<List<CoursesUserPurchase>> GetStudentCourseById(int id, string sessionUserID)
         {
             // including the data from the course user purhceses to know whether the course is marked as finished or not

@@ -12,5 +12,6 @@ namespace ILearnSmartProject.Interfaces
         public Task<List<Course>> GetAllStudentCourses(string userId);
 
         public Task<List<CoursesUserPurchase>> GetStudentCourseById(int id, string sessionUserID);
+        public Task<List<int>> GetDashboardData();
     }
 }
