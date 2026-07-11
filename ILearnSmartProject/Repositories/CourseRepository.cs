@@ -75,10 +75,10 @@ namespace ILearnSmartProject.Repositories
             // RETRIVING THE COURSEs that are not entrolled by the student
 
             var courses = await(from c in _learnSmartContext.Courses
+                                
                 where !_learnSmartContext.CoursesUserPurchases.Any(e => e.Course.Id == c.Id && e.User.Id.ToString() == userId)
                 select c).ToListAsync();
-
-            //var courses = await _learnSmartContext.Courses.).ToListAsync();
+        
             return courses;
 
         }
@@ -96,6 +96,8 @@ namespace ILearnSmartProject.Repositories
                     join c in _learnSmartContext.Courses on cup.Course.Id equals c.Id
                     select c.CoursePrice).SumAsync();
             var revenue = Convert.ToInt32(totalCoursesRevenue);
+
+
             var totalStudents = await _learnSmartContext.Users.CountAsync();
             var totalPurchases = await _learnSmartContext.CertificatesIssued.CountAsync();
 
@@ -117,10 +119,16 @@ namespace ILearnSmartProject.Repositories
         public async Task<int> DeleteCourse(int id)
         {
             var course = await _learnSmartContext.Courses.Where(u => u.Id == id).ExecuteDeleteAsync();
-
+            await _learnSmartContext.SaveChangesAsync();
             return 0;
 
         }
+
+
+      
+
+
+
 
         
 
